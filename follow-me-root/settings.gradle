@@ -1,0 +1,3 @@
+include ':sample-app'
+rootProject.name='Pepper Follow Me'
+include ':follow-me'

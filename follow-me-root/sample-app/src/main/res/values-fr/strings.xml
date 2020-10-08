@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">Pepper Follow Me</string>
+    <string-array name="say_follow">
+        <item>Suis-moi</item>
+        <item>Viens avec moi</item>
+        <item>On part en balade</item>
+        <item>On part en promenade</item>
+        <item>Je t\'emmène en balade</item>
+        <item>Je t\'emmène en promenade</item>
+        <item>Marchons ensemble</item>
+        <item>Allez viens</item>
+    </string-array>
+    <string-array name="listen_stop" tools:ignore="InconsistentArrays">
+        <item>Stop</item>
+        <item>Arrête</item>
+        <item>Arrête-toi</item>
+        <item>C\'est bon</item>
+        <item>On est arrivés</item>
+        <item>Nous sommes arrivés</item>
+        <item>Reste ici</item>
+        <item>C\'est fini</item>
+    </string-array>
+    <string-array name="say_lost">
+        <item>Oh non, je t\'ai perdu.</item>
+        <item>Où es-tu passé? Je t\'ai perdu.</item>
+        <item>"Je ne te vois plus.</item>
+        <item>Oh non, je ne te vois plus!</item>
+        <item>Où es-tu passé? Je ne te vois plus!</item>
+    </string-array>
+    <string name="unreachable">Zut, je n\'arrive pas à te rejoindre !</string>
+    <string-array name="say_too_far">
+        <item>Attends, tu vas trop vite pour moi!</item>
+        <item>Ralentis, tu vas trop vite pour moi!</item>
+        <item>Attends moi, tu vas trop vite!</item>
+        <item>Attends, je n\'arrive pa à te suivre!</item>
+        <item>Ralentis, je n\'arrive pa à te suivre!</item>
+    </string-array>
+</resources>
