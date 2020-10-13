@@ -31,7 +31,7 @@ Make sure to replace 'Tag' by the number of the version of the library you want 
 
 *This README assumes some standard setup can be done by the user, such as initialising variables or implementing code in the correct functions. Refer to the Sample Project for full usage code.*
 
-Initialise the QiSDK in the onCreate. If you are unsure how to do this, refer to the QiSDK tutorials [here](https://qisdk.softbankrobotics.com/sdk/doc/pepper-sdk/ch1_gettingstarted/starting_project.html)
+Initialise the QiSDK in the onCreate. If you are unsure how to do this, refer to the [QiSDK tutorials](https://developer.softbankrobotics.com/pepper-qisdk/getting-started/creating-robot-application)
 ```
 QiSDK.register(this, this)
 ```
@@ -61,7 +61,7 @@ followHuman = FollowHuman(qiContext, humanToFollow, this)
 ## Known limitations
 
 Pepper tracks "3D blobs", and decides based on face detection which of those blobs are humans", that way Pepper can keep following you even if you turn away from her, but since your face is not visible you will be lost more easily.
-For more information on how this works in the QiSDK, please see the Human API [here](https://developer.softbankrobotics.com/pepper-qisdk/api/perceptions/reference/human#human).
+For more information on how this works in the QiSDK, please see the [Human API](https://developer.softbankrobotics.com/pepper-qisdk/api/perceptions/reference/human#human).
 
 
 ## License
