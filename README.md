@@ -2,7 +2,7 @@
 
 This Android Library allows you to make Pepper follow a human.
 
-This library gets a [`Human` object](https://android.aldebaran.com/sdk/doc/pepper-sdk/ch4_api/perception/reference/human.html) representing the person to follow as parameter. You can then choose when to start or to stop following the person.
+This library gets a [`Human` object](https://developer.softbankrobotics.com/pepper-qisdk/api/perceptions/reference/human#human) representing the person to follow as parameter. You can then choose when to start or to stop following the person.
 Callbacks are available to know if the robot has started following the person, if the robot is stuck or if the distance between the robot and the person has changed.
 
 ## Getting Started
