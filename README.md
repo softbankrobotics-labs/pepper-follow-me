@@ -35,7 +35,7 @@ Initialise the QiSDK in the onCreate. If you are unsure how to do this, refer to
 ```
 QiSDK.register(this, this)
 ```
-Once you get the robot focus in the `onRobotFocusGained` method,  you need to find the person you want to follow. See [this tutorial](https://developer.softbankrobotics.com/pepper-qisdk/api/perceptions/tutorials/humanawareness-human) to learn how to get the `Human`objects representing people around the robot. You can also use [HumanAwareness.OnHumansAroundChangedListener](https://qisdk.softbankrobotics.com/sdk/doc/qisdk/com/aldebaran/qi/sdk/object/humanawareness/HumanAwareness.OnHumansAroundChangedListener.html) to monitor the people coming in and out of Pepper's sight.
+Once you get the robot focus in the `onRobotFocusGained` method,  you need to find the person you want to follow. See [this tutorial](https://developer.softbankrobotics.com/pepper-qisdk/api/perceptions/tutorials/humanawareness-human) to learn how to get the `Human`objects representing people around the robot. You can also use [HumanAwareness.OnHumansAroundChangedListener](https://developer.softbankrobotics.com/pepper-qisdk/apidoc/javadoc/qisdk/com.aldebaran.qi.sdk.object.humanawareness/-human-awareness/-on-humans-around-changed-listener/index.html) to monitor the people coming in and out of Pepper's sight.
 When you have defined the `Human` object corresponding to the person you want the robot to follow, create a `FollowHuman` object from the library:
 ```
 followHuman = FollowHuman(qiContext, humanToFollow)
