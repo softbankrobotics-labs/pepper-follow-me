@@ -11,6 +11,7 @@ import com.aldebaran.qi.sdk.`object`.power.FlapSensor
 import com.aldebaran.qi.sdk.builder.GoToBuilder
 import com.aldebaran.qi.sdk.builder.LookAtBuilder
 import java.util.*
+import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.concurrent.schedule
 import kotlin.concurrent.scheduleAtFixedRate
 import kotlin.math.sqrt
@@ -37,8 +38,8 @@ class FollowHuman(
     private lateinit var robotFrame: Frame
     private lateinit var headFrame: Frame
     private val closeEnoughDistance = 1.0
-    private var shouldFollowHuman = false
-    private var isFollowingHuman = false
+    private var shouldFollowHuman = AtomicBoolean(false)
+    private var isFollowingHuman = AtomicBoolean(false)
     private var goToFuture: Future<Void>? = null
     private var goToAttemptCounter = 0
     private var timer = Timer()
@@ -58,8 +59,9 @@ class FollowHuman(
     }
 
     private fun maybeFollowHuman(useStraightLines : Boolean) {
-        if (shouldFollowHuman) {
-            if (computeDistance() < closeEnoughDistance) {
+        if (shouldFollowHuman.get()) {
+            val distance = computeDistance()
+            if (distance != null && distance < closeEnoughDistance) {
                 // Don't try to move
                 lookAtFuture?.requestCancellation()
                 lookAtFuture = null
@@ -100,8 +102,7 @@ class FollowHuman(
                 .buildAsync()
                 .andThenCompose {
                     it.addOnStartedListener {
-                        if (!isFollowingHuman) {
-                            isFollowingHuman = true
+                        if (isFollowingHuman.compareAndSet(false, true)) {
                             followHumanListener?.onFollowingHuman()
                         }
                     }
@@ -127,7 +128,8 @@ class FollowHuman(
                             timer.schedule(5000) {
                                 // Five seconds later: how many new attempts have been made in the
                                 // meantime ?
-                                if ((goToAttemptCounter - thisGoToAttempt) >= 5 && computeDistance() > closeEnoughDistance) {
+                                val distance = computeDistance()
+                                if ((goToAttemptCounter - thisGoToAttempt) >= 5 && distance != null && distance > closeEnoughDistance) {
                                     if (seemsStuck && !useStraightLines) {
                                         followHumanListener?.onCantReachHuman()
                                     }
@@ -150,9 +152,9 @@ class FollowHuman(
         }
     }
 
-    private fun computeDistance(): Double {
+    private fun computeDistance(): Double? {
         if (!::headFrame.isInitialized) {
-            return 0.0
+            return null
         }
         val transformTime = headFrame.computeTransform(robotFrame)
         val transform = transformTime.transform
@@ -163,17 +165,18 @@ class FollowHuman(
     }
 
     fun start() {
-        if (!shouldFollowHuman) {
-            shouldFollowHuman = true
+        if (shouldFollowHuman.compareAndSet(false, true)) {
             // Reset internal tracking variables
             seemsStuck = false
             // Watcher for distance between robot and target
             timer.scheduleAtFixedRate(0, 1000) {
                 val distance = computeDistance()
-                followHumanListener?.onDistanceToHumanChanged(distance)
-                if (distance < closeEnoughDistance) {
-                    Log.i(TAG, "Human is close enough, canceling GoTo")
-                    goToFuture?.requestCancellation()
+                if (distance != null) {
+                    followHumanListener?.onDistanceToHumanChanged(distance)
+                    if (distance < closeEnoughDistance) {
+                        Log.i(TAG, "Human is close enough, canceling GoTo")
+                        goToFuture?.requestCancellation()
+                    }
                 }
             }
             lookAtFuture?.cancel(true)
@@ -187,8 +190,8 @@ class FollowHuman(
     fun stop() {
         timer.cancel()
         timer = Timer()
-        shouldFollowHuman = false
-        isFollowingHuman = false
+        shouldFollowHuman.set(false)
+        isFollowingHuman.set(false)
         goToFuture?.cancel(true)
         lookAtFuture?.cancel(true)
         lookAtFuture = null
